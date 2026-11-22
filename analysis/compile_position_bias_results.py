@@ -10,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BASELINE = ROOT / "analysis/position_bias/summary.json"
-DEFAULT_OUTPUT = ROOT / "analysis/POSITION_BIAS_EXPERIMENT_RESULTS.md"
+DEFAULT_OUTPUT = ROOT / "analysis/position_bias/REPORT.md"
 SIMULATORS = ("Agent4Rec", "SimUSER")
 
 
@@ -77,7 +77,7 @@ def render(baseline: dict, randomized: list[dict], baseline_path: Path,
     lines = [
         "# Agent4Rec and SimUSER randomized position-bias results",
         "",
-        "This is the single final results document for the position-permutation experiment. "
+        "This is the single results document for the position-permutation experiment. "
         "It is generated from analyzer outputs; do not transcribe values manually.",
         "",
         "## Inputs and completion status",

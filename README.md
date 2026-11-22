@@ -121,7 +121,8 @@ For the randomized position experiment, run from the repository root:
 python analysis/analyze_position_bias.py \
   --agent-run Agent4Rec/storage/ml-1m/LightGCN/AGENT_RANDOM_RUN \
   --simuser-run PQA/SimUSER/MovieLens/result/SIMUSER_RANDOM_RUN \
-  --output-dir analysis/position_bias_random_s20261121
+  --output-dir analysis/position_bias_random_s20261121 \
+  --summary-only
 ```
 
 Do not fill the handoff template manually. After the corresponding audits and analyzer complete successfully, generate the final report from the machine-readable summaries.
@@ -132,10 +133,10 @@ Then generate the single combined Agent4Rec/SimUSER results document:
 python analysis/compile_position_bias_results.py \
   --baseline-summary analysis/position_bias/summary.json \
   --random-summary analysis/position_bias_random_s20261121/summary.json \
-  --output analysis/POSITION_BIAS_EXPERIMENT_RESULTS.md
+  --output analysis/position_bias/REPORT.md
 ```
 
-`analysis/POSITION_BIAS_EXPERIMENT_RESULTS.md` is the final source of truth to commit and share. It contains both simulators and both original/randomized conditions; do not manually copy values between reports.
+The existing `analysis/position_bias/REPORT.md` remains the only results Markdown and is the source of truth to commit and share. It contains both simulators and both original/randomized conditions; do not create or manually copy values into another report.
 
 ## Git and artifact policy
 

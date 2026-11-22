@@ -163,15 +163,17 @@ From the repository root:
 python analysis/analyze_position_bias.py \
   --agent-run Agent4Rec/storage/ml-1m/LightGCN/agent4rec_lightgcn_luna_1000_5pages_position_random_s20261121 \
   --simuser-run PQA/SimUSER/MovieLens/result/position_random_lightgcn_u1000_s20261121 \
-  --output-dir analysis/position_bias_random_s20261121
+  --output-dir analysis/position_bias_random_s20261121 \
+  --summary-only
 ```
 
 The analyzer checks that the two run manifests use the same treatment and seed, verifies identical displayed items on pages observed by both simulators, reconstructs every displayed position from raw page output, and writes:
 
-- `REPORT.md`
 - `summary.json`
 - `position_rates.csv`
 - `exposure_events.csv`
+
+`--summary-only` deliberately suppresses an intermediate randomized `REPORT.md`; the final step below updates the existing canonical report instead.
 
 Run the analyzer separately for every additional permutation seed. The final compiler includes every supplied seed in the same Markdown. If a pooled cross-seed estimate is later added, it must cluster uncertainty by both user and permutation seed; the current compiler reports each seed separately.
 
@@ -183,16 +185,16 @@ After both simulator runs pass their audits and the analyzer above creates the r
 python analysis/compile_position_bias_results.py \
   --baseline-summary analysis/position_bias/summary.json \
   --random-summary analysis/position_bias_random_s20261121/summary.json \
-  --output analysis/POSITION_BIAS_EXPERIMENT_RESULTS.md
+  --output analysis/position_bias/REPORT.md
 ```
 
-This command creates the **single final results document** containing both Agent4Rec and SimUSER, with vanilla and randomized rows, confidence intervals, statistical tests, automated causal interpretations, and metric sources:
+This command updates the **existing single results document** with both Agent4Rec and SimUSER, vanilla and randomized rows, confidence intervals, statistical tests, automated causal interpretations, and metric sources:
 
 ```text
-analysis/POSITION_BIAS_EXPERIMENT_RESULTS.md
+analysis/position_bias/REPORT.md
 ```
 
-Do not manually transcribe analyzer values into a separate report. This generated file is the source of truth to commit and share. For additional seeds, repeat `--random-summary`:
+Do not create or manually maintain another results Markdown. This existing report is the source of truth to commit and share. For additional seeds, repeat `--random-summary`:
 
 ```bash
 python analysis/compile_position_bias_results.py \
@@ -259,7 +261,7 @@ For randomized runs, conclude causal front-position bias only if the user-cluste
 - [ ] Agent4Rec item-matching audit passes.
 - [ ] SimUSER randomized-ranking audit passes.
 - [ ] The position-bias analyzer completes and detects randomized design.
-- [ ] Per-run `REPORT.md`, `summary.json`, and CSV artifacts are retained.
-- [ ] `analysis/compile_position_bias_results.py` creates `analysis/POSITION_BIAS_EXPERIMENT_RESULTS.md`.
-- [ ] The generated single final Markdown is committed and shared; no values are manually transcribed.
+- [ ] Per-run `summary.json` and CSV artifacts are retained; no intermediate randomized report is created.
+- [ ] `analysis/compile_position_bias_results.py` updates `analysis/position_bias/REPORT.md`.
+- [ ] The updated canonical report is committed and shared; no values are manually transcribed.
 - [ ] Any partial run, parsing failure, API error, or missing user is disclosed rather than silently excluded.

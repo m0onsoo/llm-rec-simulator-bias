@@ -325,6 +325,8 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--bootstrap", type=int, default=5000)
     parser.add_argument("--seed", type=int, default=20261121)
+    parser.add_argument("--summary-only", action="store_true",
+                        help="write JSON/CSV artifacts without a per-run REPORT.md")
     args = parser.parse_args()
 
     degree = train_degrees(args.train)
@@ -346,7 +348,8 @@ def main() -> None:
     frame.to_csv(args.output_dir / "exposure_events.csv", index=False)
     rates.to_csv(args.output_dir / "position_rates.csv", index=False)
     (args.output_dir / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
-    (args.output_dir / "REPORT.md").write_text(markdown(summary, design).rstrip() + "\n")
+    if not args.summary_only:
+        (args.output_dir / "REPORT.md").write_text(markdown(summary, design).rstrip() + "\n")
     print(markdown(summary, design))
 
 
