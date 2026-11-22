@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "file": "full_rankings_1000.npy",
+  "sha256": "906e830fc56652cf21a9f2818cd3fa571f9b38d7ff9909f4e11ae72cd15e89d1",
+  "size_bytes": 26336128,
+  "shape": [
+    1000,
+    3292
+  ],
+  "dtype": "int64",
+  "dataset": "MovieLens-1M",
+  "recommender": "LightGCN",
+  "users": "rows 0 through 999 map to avatar IDs 0 through 999",
+  "contents": "complete ordered item-ID ranking for each user; no model scores",
+  "simulation_protocol": "mask train and test interactions; keep validation items as held-out targets",
+  "agent4rec_source_revision": "c29a9963ace6315d4e8b5bc57298547a47b96104",
+  "dataset_hashes": {
+    "Agent4Rec/datasets/ml-1m/cf_data/train.txt": "179b1f7ec8baf96953d22373721383673ef5897c4cde360dcfbf8ad83f946c56",
+    "Agent4Rec/datasets/ml-1m/cf_data/valid.txt": "3a57bc6891f7b7137a0b9c11d8ec736d47baf8ea36a0c1f8b332a599149454f8",
+    "Agent4Rec/datasets/ml-1m/cf_data/test.txt": "9f2c57f8af87139eb7d2a1ee5be33fdb2d58bf646040870042e3c52692b26b56"
+  },
+  "usage": "Both simulators must derive their displayed candidates from this exact artifact. Do not regenerate it separately by experimental condition."
+}
+
