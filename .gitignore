@@ -1,0 +1,37 @@
+# Secrets and local environments
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+.deps/
+
+# Python/editor caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.vscode/
+.idea/
+
+# Scheduler and runtime logs
+*.out
+*.err
+*.log
+slurm-*.out
+
+# Generated simulator outputs
+Agent4Rec/storage/
+Agent4Rec/reproduction_outputs/
+PQA/SimUSER/**/result/
+PQA/SimUSER/**/results/
+
+# Large/generated model artifacts
+Agent4Rec/recommenders/weights/
+*.ckpt
+*.pth
+*.pt
+
+# Analysis scratch outputs. Curated reports under analysis/ remain tracked.
+analysis/tmp/
+

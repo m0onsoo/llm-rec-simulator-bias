@@ -1,0 +1,4 @@
+activity,activity_name,users,mean_included_pages,mean_excluded_pages,mean_common_pages,median_common_pages,common_prefix_1_users,common_prefix_2_users,common_prefix_3_users,common_prefix_4_users,common_prefix_5_users
+1,Infrequent,539,2.2782931354359928,4.150278293135436,2.256029684601113,2.0,182,134,126,97,0
+2,Occasional,352,3.8920454545454546,4.318181818181818,3.6818181818181817,4.0,23,15,62,203,49
+3,Frequent,109,4.761467889908257,4.330275229357798,4.238532110091743,4.0,3,0,16,39,51
