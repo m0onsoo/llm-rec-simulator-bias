@@ -124,7 +124,18 @@ python analysis/analyze_position_bias.py \
   --output-dir analysis/position_bias_random_s20261121
 ```
 
-Fill the `TBD` cells in the handoff documents only after the corresponding audit and analyzer complete successfully.
+Do not fill the handoff template manually. After the corresponding audits and analyzer complete successfully, generate the final report from the machine-readable summaries.
+
+Then generate the single combined Agent4Rec/SimUSER results document:
+
+```bash
+python analysis/compile_position_bias_results.py \
+  --baseline-summary analysis/position_bias/summary.json \
+  --random-summary analysis/position_bias_random_s20261121/summary.json \
+  --output analysis/POSITION_BIAS_EXPERIMENT_RESULTS.md
+```
+
+`analysis/POSITION_BIAS_EXPERIMENT_RESULTS.md` is the final source of truth to commit and share. It contains both simulators and both original/randomized conditions; do not manually copy values between reports.
 
 ## Git and artifact policy
 

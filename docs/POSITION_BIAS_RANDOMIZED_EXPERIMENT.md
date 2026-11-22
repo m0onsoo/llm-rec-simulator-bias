@@ -34,6 +34,7 @@ Relevant files:
 - `PQA/SimUSER/MovieLens/scripts/run_vanilla_common.py`
 - `PQA/SimUSER/MovieLens/scripts/audit_vanilla_run.py`
 - `analysis/analyze_position_bias.py`
+- `analysis/compile_position_bias_results.py`
 
 ## Required primary experiment
 
@@ -172,7 +173,35 @@ The analyzer checks that the two run manifests use the same treatment and seed, 
 - `position_rates.csv`
 - `exposure_events.csv`
 
-Run the analyzer separately for every additional permutation seed. If multiple seeds are completed, report each seed and a pooled estimate with standard errors clustered by user and permutation seed.
+Run the analyzer separately for every additional permutation seed. The final compiler includes every supplied seed in the same Markdown. If a pooled cross-seed estimate is later added, it must cluster uncertainty by both user and permutation seed; the current compiler reports each seed separately.
+
+## Mandatory final aggregation into one Markdown file
+
+After both simulator runs pass their audits and the analyzer above creates the randomized `summary.json`, run:
+
+```bash
+python analysis/compile_position_bias_results.py \
+  --baseline-summary analysis/position_bias/summary.json \
+  --random-summary analysis/position_bias_random_s20261121/summary.json \
+  --output analysis/POSITION_BIAS_EXPERIMENT_RESULTS.md
+```
+
+This command creates the **single final results document** containing both Agent4Rec and SimUSER, with vanilla and randomized rows, confidence intervals, statistical tests, automated causal interpretations, and metric sources:
+
+```text
+analysis/POSITION_BIAS_EXPERIMENT_RESULTS.md
+```
+
+Do not manually transcribe analyzer values into a separate report. This generated file is the source of truth to commit and share. For additional seeds, repeat `--random-summary`:
+
+```bash
+python analysis/compile_position_bias_results.py \
+  --random-summary analysis/position_bias_random_s20261121/summary.json \
+  --random-summary analysis/position_bias_random_s20261122/summary.json \
+  --random-summary analysis/position_bias_random_s20261123/summary.json
+```
+
+The compiler refuses an original-order file in a randomized slot, duplicate seeds, missing simulators or positions, and any summary that does not contain exactly 1,000 users per simulator.
 
 ## Metrics and sources
 
@@ -199,7 +228,7 @@ Kendall's tau is not the primary metric here because Agent4Rec and SimUSER outpu
 
 ## Results table to complete after the randomized run
 
-Jinyi (or the analysis agent) should replace every `TBD` cell only after the full run passes its audit and `analysis/analyze_position_bias.py` completes successfully. Do not copy the vanilla association into the randomized column.
+The tables below are the requested-result template. Jinyi's agent should not edit them by hand; after the full run passes its audit, `analysis/compile_position_bias_results.py` generates the completed single results document from machine-readable summaries.
 
 ### Selection rate by displayed position
 
@@ -230,6 +259,7 @@ For randomized runs, conclude causal front-position bias only if the user-cluste
 - [ ] Agent4Rec item-matching audit passes.
 - [ ] SimUSER randomized-ranking audit passes.
 - [ ] The position-bias analyzer completes and detects randomized design.
-- [ ] `REPORT.md`, `summary.json`, and CSV artifacts are committed or otherwise shared.
-- [ ] The `TBD` cells above are replaced with analyzer outputs.
+- [ ] Per-run `REPORT.md`, `summary.json`, and CSV artifacts are retained.
+- [ ] `analysis/compile_position_bias_results.py` creates `analysis/POSITION_BIAS_EXPERIMENT_RESULTS.md`.
+- [ ] The generated single final Markdown is committed and shared; no values are manually transcribed.
 - [ ] Any partial run, parsing failure, API error, or missing user is disclosed rather than silently excluded.
